@@ -93,7 +93,7 @@ export default async function ProfilePage({ params }: { params: { username: stri
           </div>
         ) : (
           user.posts.map((post) => (
-            <PostCard key={post.id} post={post as any} currentUserId={session!.user!.id} />
+            <PostCard key={post.id} post={post as any} currentUserId={session!.user!.id as string} />
           ))
         )}
       </div>

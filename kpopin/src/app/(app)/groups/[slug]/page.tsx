@@ -94,7 +94,7 @@ export default async function GroupPage({ params }: { params: { slug: string } }
           </div>
         ) : (
           group.posts.map((post) => (
-            <PostCard key={post.id} post={post as any} currentUserId={session!.user!.id} />
+            <PostCard key={post.id} post={post as any} currentUserId={session!.user!.id as string} />
           ))
         )}
       </div>

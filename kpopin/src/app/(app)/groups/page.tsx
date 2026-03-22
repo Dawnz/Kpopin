@@ -26,7 +26,7 @@ export default async function GroupsPage() {
             key={group.id}
             group={group}
             isFollowing={group.groupMembers.length > 0}
-            currentUserId={session!.user!.id}
+            currentUserId={session!.user!.id as string}
           />
         ))}
       </div>

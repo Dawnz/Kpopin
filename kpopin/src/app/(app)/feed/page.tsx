@@ -38,7 +38,7 @@ export default async function FeedPage() {
           </div>
         ) : (
           posts.map((post) => (
-            <PostCard key={post.id} post={post} currentUserId={session!.user!.id} />
+            <PostCard key={post.id} post={post} currentUserId={session!.user!.id as string} />
           ))
         )}
       </div>

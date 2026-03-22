@@ -79,7 +79,7 @@ export default async function PostPage({ params }: { params: { id: string } }) {
       <CommentSection
         postId={post.id}
         comments={post.comments as any}
-        currentUserId={session!.user!.id}
+        currentUserId={session!.user!.id as string}
       />
     </div>
   );

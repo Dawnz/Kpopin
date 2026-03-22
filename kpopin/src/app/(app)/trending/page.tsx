@@ -35,7 +35,7 @@ export default async function TrendingPage() {
           posts.map((post, i) => (
             <div key={post.id} className="relative">
               <div className="absolute -left-6 top-5 text-kpop-muted text-xs font-bold w-4 text-right">{i + 1}</div>
-              <PostCard post={post as any} currentUserId={session!.user!.id} />
+              <PostCard post={post as any} currentUserId={session!.user!.id as string} />
             </div>
           ))
         )}
