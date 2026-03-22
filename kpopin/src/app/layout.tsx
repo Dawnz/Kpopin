@@ -19,6 +19,9 @@ const dmSans = DM_Sans({
 export const metadata: Metadata = {
   title: 'KPOPIN — Your K-Pop Universe',
   description: 'Live updates, discussions, and community for K-pop fans worldwide.',
+    icons: {
+    icon: '/favicon.svg',
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
