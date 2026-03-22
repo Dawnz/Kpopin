@@ -1,7 +1,7 @@
+export const dynamic = 'force-dynamic';
 import { auth } from '@/lib/auth';
 import { prisma } from '@/lib/prisma';
 import { ChatLayout } from '@/components/chat/ChatLayout';
-
 export default async function ChatPage() {
   const session = await auth();
 
