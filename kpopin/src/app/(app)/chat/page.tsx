@@ -46,7 +46,7 @@ export default async function ChatPage() {
     <ChatLayout
       chats={chats as any}
       similarFans={similarFans as any}
-      currentUserId={session!.user!.id}
+      currentUserId={session!.user!.id as string}
     />
   );
 }
