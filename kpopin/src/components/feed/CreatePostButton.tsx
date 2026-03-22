@@ -2,14 +2,19 @@
 
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
-import { Plus, X, ChevronDown } from 'lucide-react';
+import { Plus, X } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import toast from 'react-hot-toast';
 import { cn } from '@/lib/utils';
 
 const POST_TYPES = ['DISCUSSION', 'NEWS', 'UPDATE', 'MEDIA'] as const;
 
-export function CreatePostButton() {
+interface CreatePostButtonProps {
+  groupId?: string;
+  groupName?: string;
+}
+
+export function CreatePostButton({ groupId, groupName }: CreatePostButtonProps) {
   const { data: session } = useSession();
   const [open, setOpen]   = useState(false);
   const [title, setTitle] = useState('');
@@ -28,7 +33,7 @@ export function CreatePostButton() {
       const res = await fetch('/api/posts', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title, content, type }),
+        body: JSON.stringify({ title, content, type, groupId }),
       });
       if (!res.ok) throw new Error();
       toast.success('Post created!');
@@ -52,7 +57,9 @@ export function CreatePostButton() {
         <div className="w-8 h-8 rounded-full bg-gradient-to-br from-kpop-pink to-kpop-purple flex items-center justify-center text-xs font-bold text-white">
           {session?.user?.name?.[0]?.toUpperCase() ?? 'U'}
         </div>
-        <span>Share something with the fandom...</span>
+        <span>
+          {groupName ? `Post in ${groupName}...` : 'Share something with the fandom...'}
+        </span>
         <Plus size={18} className="ml-auto text-kpop-pink" />
       </button>
 
@@ -60,7 +67,12 @@ export function CreatePostButton() {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm animate-fade-in">
           <div className="bg-kpop-card border border-kpop-border rounded-2xl w-full max-w-lg mx-4 p-6 animate-slide-up">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="font-display text-xl font-700">Create Post</h2>
+              <div>
+                <h2 className="font-display text-xl font-700">Create Post</h2>
+                {groupName && (
+                  <p className="text-xs text-kpop-muted mt-0.5">Posting in <span className="text-kpop-pink">{groupName}</span></p>
+                )}
+              </div>
               <button onClick={() => setOpen(false)} className="text-kpop-muted hover:text-white transition-colors">
                 <X size={20} />
               </button>

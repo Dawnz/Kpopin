@@ -6,6 +6,7 @@ import { notFound } from 'next/navigation';
 import { PostCard } from '@/components/feed/PostCard';
 import { GroupFollowButton } from '@/components/groups/GroupFollowButton';
 import { YouTubeVideos } from '@/components/groups/YouTubeVideos';
+import { CreatePostButton } from '@/components/feed/CreatePostButton';
 import { Users, Calendar, Building2 } from 'lucide-react';
 import { YOUTUBE_CHANNELS } from '@/lib/youtube-channels';
 
@@ -87,12 +88,17 @@ export default async function GroupPage({ params }: { params: { slug: string } }
         <YouTubeVideos slug={group.slug} groupName={group.name} />
       )}
 
+      {/* Create Post */}
+      <div className="mb-6">
+        <CreatePostButton groupId={group.id} groupName={group.name} />
+      </div>
+
       {/* Posts */}
       <h2 className="font-display text-lg font-700 mb-4">{group._count.posts} Posts</h2>
       <div className="space-y-4">
         {group.posts.length === 0 ? (
           <div className="bg-card rounded-xl p-12 text-center">
-            <p className="text-kpop-muted">No posts yet for {group.name}</p>
+            <p className="text-kpop-muted">No posts yet for {group.name}. Be the first!</p>
           </div>
         ) : (
           group.posts.map((post) => (
