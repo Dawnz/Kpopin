@@ -1,20 +1,28 @@
-import { NextRequest, NextResponse } from 'next/server';
-import bcrypt from 'bcryptjs';
-import { prisma } from '@/lib/prisma';
+import { NextRequest, NextResponse } from "next/server";
+import bcrypt from "bcryptjs";
+import { prisma } from "@/lib/prisma";
+
+export const dynamic = "force-dynamic";
 
 export async function POST(req: NextRequest) {
   try {
     const { name, email, password, username, groupIds } = await req.json();
 
     if (!name || !email || !password) {
-      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
+      return NextResponse.json(
+        { error: "Missing required fields" },
+        { status: 400 },
+      );
     }
 
     const existing = await prisma.user.findFirst({
       where: { OR: [{ email }, { username }] },
     });
     if (existing) {
-      return NextResponse.json({ error: 'Email or username already taken' }, { status: 409 });
+      return NextResponse.json(
+        { error: "Email or username already taken" },
+        { status: 409 },
+      );
     }
 
     const hash = await bcrypt.hash(password, 12);
@@ -31,9 +39,15 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    return NextResponse.json({ id: user.id, email: user.email }, { status: 201 });
+    return NextResponse.json(
+      { id: user.id, email: user.email },
+      { status: 201 },
+    );
   } catch (err) {
     console.error(err);
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 },
+    );
   }
 }
