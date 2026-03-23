@@ -9,14 +9,12 @@ import { RightSidebar } from '@/components/layout/RightSidebar';
 export default async function FeedPage() {
   const session = await auth();
 
-  // Get user's followed groups
   const userGroups = await prisma.groupMember.findMany({
     where: { userId: session!.user!.id },
     select: { groupId: true },
   });
   const groupIds = userGroups.map((g) => g.groupId);
 
-  // Personalized feed: posts from followed groups + general posts
   const posts = await prisma.post.findMany({
     where: groupIds.length > 0 ? { OR: [{ groupId: { in: groupIds } }, { groupId: null }] } : {},
     orderBy: { createdAt: 'desc' },
@@ -30,8 +28,9 @@ export default async function FeedPage() {
   });
 
   return (
-    <div className="flex gap-6 max-w-5xl mx-auto px-6 py-8">
-      <div className="flex-1 space-y-4">
+    <div className="flex gap-6 max-w-5xl mx-auto px-4 md:px-6 py-6 md:py-8">
+      {/* Main feed */}
+      <div className="flex-1 min-w-0 space-y-4">
         <CreatePostButton />
         {posts.length === 0 ? (
           <div className="bg-card rounded-xl p-12 text-center">
@@ -44,7 +43,11 @@ export default async function FeedPage() {
           ))
         )}
       </div>
-      <RightSidebar />
+
+      {/* Right sidebar — hidden on mobile and tablet */}
+      <div className="hidden xl:block">
+        <RightSidebar />
+      </div>
     </div>
   );
 }
